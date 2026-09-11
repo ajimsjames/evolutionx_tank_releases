@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evolution X 12.2 | Motorola Edge 50 (tank)</title>
+  <meta name="description" content="Official Evolution X 12.2 (Android 17) for Motorola Edge 50 (tank / SM7450). KernelSU-Next Root & Non-Root builds with GApps.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Google Sans Flex', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            m3: {
+              primary: {
+                DEFAULT: '#0B57D0',
+                dark: '#A8C7FA',
+                container: '#D3E3FD',
+                containerDark: '#0842A0',
+                onContainer: '#041E49',
+                onContainerDark: '#D3E3FD'
+              },
+              secondary: {
+                DEFAULT: '#00639B',
+                dark: '#7FCFFF',
+                container: '#C2E7FF',
+                containerDark: '#004A77'
+              },
+              surface: {
+                light: '#F8F9FA',
+                lightCard: '#FFFFFF',
+                lightCardHover: '#F1F3F4',
+                dark: '#111318',
+                darkCard: '#1E1F22',
+                darkCardHover: '#282A2D'
+              },
+              outline: {
+                light: '#E0E3E7',
+                dark: '#36383D'
+              }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Smooth theme transition */
+    * {
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease, box-shadow 0.25s ease;
+    }
+    .m3-card {
+      border-radius: 1.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .m3-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    .badge-pill {
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(150, 150, 150, 0.3);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-m3-surface-light dark:bg-m3-surface-dark text-gray-900 dark:text-gray-100 min-h-screen flex flex-col font-sans antialiased selection:bg-m3-primary/30">
+
+  <!-- Top App Bar / Navigation -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-m3-surface-light/85 dark:bg-m3-surface-dark/85 border-b border-m3-outline-light dark:border-m3-outline-dark">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
+      <!-- Logo and Device -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white font-black text-xl shadow-md group-hover:scale-105 transition-transform">
+          E
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-lg tracking-tight">Evolution X</span>
+            <span class="badge-pill bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/60">v12.2</span>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Motorola Edge 50 <span class="font-mono text-[11px]">(tank)</span></p>
+        </div>
+      </a>
+
+      <!-- Actions: Theme Toggle & Links -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" aria-label="Toggle Theme" class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-200/70 dark:bg-gray-800/70 hover:bg-gray-300 dark:hover:bg-gray-700 border border-m3-outline-light dark:border-m3-outline-dark text-gray-700 dark:text-gray-300 active:scale-95 transition-all">
+          <!-- Sun Icon (shows in dark) -->
+          <svg id="theme-sun" class="w-5 h-5 hidden dark:block text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon Icon (shows in light) -->
+          <svg id="theme-moon" class="w-5 h-5 block dark:hidden text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+
+        <!-- SourceForge Icon Link -->
+        <a href="https://sourceforge.net/projects/evolutionx-a17-tank/files/" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold bg-amber-500/10 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 hover:bg-amber-500/20 border border-amber-300/40 dark:border-amber-700/40 active:scale-95 transition-all">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+          SourceForge Mirror
+        </a>
+
+        <!-- GitHub Icon Link -->
+        <a href="https://github.com/ajimsjames/evolutionx_tank_releases" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold bg-gray-900 text-white dark:bg-white dark:text-gray-950 hover:opacity-90 active:scale-95 transition-all shadow-sm">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-1 max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 w-full">
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/80 text-blue-700 dark:text-blue-300 text-xs font-semibold mb-6 shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+        Android 17 (vic / cnb) • September 2026 Release
+      </div>
+      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-5 leading-tight">
+        Evolution X <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 dark:from-blue-400 dark:via-indigo-300 dark:to-purple-400">12.2</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-300 font-normal leading-relaxed mb-8">
+        Clean, fluid, and powerful custom ROM experience tailored specifically for the <strong class="text-gray-900 dark:text-white font-semibold">Motorola Edge 50</strong>. Featuring complete Lossless Hi-Res Audio, double tap to wake, and official GApps.
+      </p>
+
+      <!-- Device Spec Pills -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
+        <div class="p-3.5 rounded-2xl bg-m3-surface-lightCard dark:bg-m3-surface-darkCard border border-m3-outline-light dark:border-m3-outline-dark shadow-sm">
+          <p class="text-[11px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">SoC</p>
+          <p class="font-bold text-sm text-gray-900 dark:text-gray-100">Snapdragon 7s Gen 2</p>
+          <p class="text-[11px] text-gray-500">4nm Octa-core</p>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-m3-surface-lightCard dark:bg-m3-surface-darkCard border border-m3-outline-light dark:border-m3-outline-dark shadow-sm">
+          <p class="text-[11px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Display</p>
+          <p class="font-bold text-sm text-gray-900 dark:text-gray-100">6.7" 1.5K pOLED</p>
+          <p class="text-[11px] text-gray-500">144Hz • HDR10+</p>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-m3-surface-lightCard dark:bg-m3-surface-darkCard border border-m3-outline-light dark:border-m3-outline-dark shadow-sm">
+          <p class="text-[11px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Charging</p>
+          <p class="font-bold text-sm text-gray-900 dark:text-gray-100">68W TurboPower™</p>
+          <p class="text-[11px] text-gray-500">15W Wireless Charge</p>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-m3-surface-lightCard dark:bg-m3-surface-darkCard border border-m3-outline-light dark:border-m3-outline-dark shadow-sm">
+          <p class="text-[11px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Audio</p>
+          <p class="font-bold text-sm text-gray-900 dark:text-gray-100">Hi-Res Lossless</p>
+          <p class="text-[11px] text-gray-500">LDAC 990k • LHDC v5</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Download Section (Material 3 Cards) -->
+    <div class="mb-16">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Download Releases</h2>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Directly mirrored from SourceForge high-speed infrastructure.</p>
+        </div>
+        <span class="badge-pill bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          Active Releases
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- CARD 1: KernelSU-Next Variant -->
+        <div class="m3-card bg-m3-surface-lightCard dark:bg-m3-surface-darkCard border border-m3-outline-light dark:border-m3-outline-dark p-6 sm:p-8 flex flex-col justify-between shadow-lg hover:shadow-xl transition-shadow relative group">
+          <div class="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 dark:bg-blue-500/15 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform"></div>
+          
+          <div>
+            <!-- Header Badges -->
+            <div class="flex flex-wrap items-center gap-2 mb-4">
+              <span class="badge-pill bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/80 font-bold">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                KernelSU-Next Rooted
+              </span>
+              <span class="badge-pill bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                GApps Included
+              </span>
+              <span class="badge-pill bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-mono text-xs">
+                3.16 GB
+              </span>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">KernelSU-Next Edition</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              Equipped with KernelSU-Next v3.3.0 kernel-level root solution (<code class="font-mono text-xs bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">CONFIG_KSU=y</code>). Pass SafetyNet / Play Integrity seamlessly without altering system partitions.
+            </p>
+
+            <!-- Primary Action Button -->
+            <a href="https://sourceforge.net/projects/evolutionx-a17-tank/files/EvolutionX-17.0_tank_KernelSU-Next_GApps/EvolutionX-17.0-20260911-tank-12.2-Unofficial.zip/download" target="_blank" rel="noopener" class="w-full py-4 px-6 rounded-2xl bg-m3-primary dark:bg-m3-primary-dark text-white dark:text-gray-950 font-bold text-base flex items-center justify-center gap-3 hover:opacity-95 active:scale-[0.98] transition-all shadow-md mb-4 group/btn">
+              <svg class="w-5 h-5 group-hover/btn:translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              Download Full ROM ZIP (SourceForge)
+            </a>
+
+            <!-- Partition Images Accordion / Fastboot files -->
+            <details class="group/acc bg-gray-50 dark:bg-gray-800/40 border border-m3-outline-light dark:border-m3-outline-dark rounded-2xl p-4 mb-4">
+              <summary class="flex items-center justify-between cursor-pointer font-semibold text-xs text-gray-700 dark:text-gray-300 select-none">
+                <span class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                  Individual Fastboot Images &amp; Root APK
+                </span>
+                <svg class="w-4 h-4 group-open/acc:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
+              <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-gray-200 dark:border-gray-700/60 text-xs">
+                <a href="https://sourceforge.net/projects/evolutionx-a17-tank/files/EvolutionX-17.0_tank_KernelSU-Next_GApps/boot.img/download" target="_blank" class="p-2.5 rounded-xl bg-white dark:bg-gray-900 border border-m3-outline-light dark:border-m3-outline-dark hover:border-blue-500 flex flex-col">
+                  <span class="font-bold text-gray-900 dark:text-white">boot.img (Root)</span>
+                  <span class="text-[10px] text-gray-500">100 MB</span>
+                </a>
+                <a href="https://sourceforge.net/projects/evolutionx-a17-tank/files/EvolutionX-17.0_tank_KernelSU-Next_GApps/vendor_boot.img/download" target="_blank" class="p-2.5 rounded-xl bg-white dark:bg-gray-900 border border-m3-outline-light dark:border-m3-outline-dark hover:border-blue-500 flex flex-col">
+                  <span class="font-bold text-gray-900 dark:text-white">vendor_boot.img</span>
+                  <span class="text-[10px] text-gray-500">100 MB</span>
+                </a>
+                <a href="https://sourceforge.net/projects/evolutionx-a17-tank/files/EvolutionX-17.0_tank_KernelSU-Next_GApps/dtbo.img/download" target="_blank" class="p-2.5 rounded-xl bg-white dark:bg-gray-900 border border-m3-outline-light dark:border-m3-outline-dark hover:border-blue-500 flex flex-col">
+                  <span class="font-bold text-gray-900 dark:text-white">dtbo.img</span>
+                  <span class="text-[10px] text-gray-500">25 MB</span>
+                </a>
+                <a href="https://sourceforge.net/projects/evolutionx-a17-tank/files/EvolutionX-17.0_tank_KernelSU-Next_GApps/KernelSU_Next_v3.3.0_33264-debug.apk/download" target="_blank" class="p-2.5 rounded-xl bg-white dark:bg-gray-900 border border-m3-outline-light dark:border-m3-outline-dark hover:border-purple-500 flex flex-col">
+                  <span class="font-bold text-purple-600 dark:text-purple-400">KernelSU Manager</span>
+                  <span class="text-[10px] text-gray-500">v3.3.0 APK (33 MB)</span>
+                </a>
+              </div>
+            </details>
+          </div>
+
+          <!-- Checksum Footer -->
+          <div class="pt-4 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between text-xs font-mono text-gray-500">
+            <span class="truncate max-w-[240px] sm:max-w-[320px]">SHA256: af1f533bfd8d7c095e026facb15b8a93...</span>
+            <button onclick="copyToClipboard('af1f533bfd8d7c095e026facb15b8a935cac1e8c6efe4d1e8f0d9d6d0208d39d', 'KSU SHA256 copied!')" class="p-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300" title="Copy SHA256">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 2: Non-Root / Vanilla Variant -->
+        <div class="m3-card bg-m3-surface-lightCard dark:bg-m3-surface-darkCard border border-m3-outline-light dark:border-m3-outline-dark p-6 sm:p-8 flex flex-col justify-between shadow-lg hover:shadow-xl transition-shadow relative group">
+          <div class="absolute top-0 right-0 w-48 h-48 bg-indigo-500/10 dark:bg-indigo-500/15 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform"></div>
+          
+          <div>
+            <!-- Header Badges -->
+            <div class="flex flex-wrap items-center gap-2 mb-4">
+              <span class="badge-pill bg-teal-100 dark:bg-teal-950/80 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800/80 font-bold">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                Non-Root / Pure Stock
+              </span>
+              <span class="badge-pill bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                GApps Included
+              </span>
+              <span class="badge-pill bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-mono text-xs">
+                3.16 GB
+              </span>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Vanilla Non-Root Edition</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              Standard official kernel (<code class="font-mono text-xs bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">CONFIG_KSU=n</code>). Designed for banking apps, enterprise security policies, and users who prefer a clean, unmodified system kernel.
+            </p>
+
+            <!-- Primary Action Button -->
+            <a href="https://sourceforge.net/projects/evolutionx-a17-tank/files/EvolutionX-17.0_tank_Non-Root_GApps/EvolutionX-17.0-20260911-tank-12.2-Unofficial.zip/download" target="_blank" rel="noopener" class="w-full py-4 px-6 rounded-2xl bg-indigo-600 dark:bg-indigo-400 text-white dark:text-gray-950 font-bold text-base flex items-center justify-center gap-3 hover:opacity-95 active:scale-[0.98] transition-all shadow-md mb-4 group/btn">
+              <svg class="w-5 h-5 group-hover/btn:translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              Download Full ROM ZIP (SourceForge)
+            </a>
+
+            <!-- Partition Images Accordion / Fastboot files -->
+            <details class="group/acc bg-gray-50 dark:bg-gray-800/40 border border-m3-outline-light dark:border-m3-outline-dark rounded-2xl p-4 mb-4">
+              <summary class="flex items-center justify-between cursor-pointer font-semibold text-xs text-gray-700 dark:text-gray-300 select-none">
+                <span class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                  Individual Partition Images (Fastboot Flashing)
+                </span>
+                <svg class="w-4 h-4 group-open/acc:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
+              <div class="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-gray-200 dark:border-gray-700/60 text-xs">
+                <a href="https://sourceforge.net/projects/evolutionx-a17-tank/files/EvolutionX-17.0_tank_Non-Root_GApps/boot.img/download" target="_blank" class="p-2.5 rounded-xl bg-white dark:bg-gray-900 border border-m3-outline-light dark:border-m3-outline-dark hover:border-indigo-500 flex flex-col">
+                  <span class="font-bold text-gray-900 dark:text-white">boot.img</span>
+                  <span class="text-[10px] text-gray-500">100 MB</span>
+                </a>
+                <a href="https://sourceforge.net/projects/evolutionx-a17-tank/files/EvolutionX-17.0_tank_Non-Root_GApps/vendor_boot.img/download" target="_blank" class="p-2.5 rounded-xl bg-white dark:bg-gray-900 border border-m3-outline-light dark:border-m3-outline-dark hover:border-indigo-500 flex flex-col">
+                  <span class="font-bold text-gray-900 dark:text-white">vendor_boot.img</span>
+                  <span class="text-[10px] text-gray-500">100 MB</span>
+                </a>
+                <a href="https://sourceforge.net/projects/evolutionx-a17-tank/files/EvolutionX-17.0_tank_Non-Root_GApps/dtbo.img/download" target="_blank" class="p-2.5 rounded-xl bg-white dark:bg-gray-900 border border-m3-outline-light dark:border-m3-outline-dark hover:border-indigo-500 flex flex-col">
+                  <span class="font-bold text-gray-900 dark:text-white">dtbo.img</span>
+                  <span class="text-[10px] text-gray-500">25 MB</span>
+                </a>
+              </div>
+            </details>
+          </div>
+
+          <!-- Checksum Footer -->
+          <div class="pt-4 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between text-xs font-mono text-gray-500">
+            <span class="truncate max-w-[240px] sm:max-w-[320px]">SHA256: 3fa58c7d9ba46385334ad4536fcf2382...</span>
+            <button onclick="copyToClipboard('3fa58c7d9ba46385334ad4536fcf238246e456b6451503a2207cd45b259cf244', 'Non-Root SHA256 copied!')" class="p-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300" title="Copy SHA256">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Flashing Guide (Tabbed Container) -->
+    <div class="mb-16">
+      <div class="m3-card bg-m3-surface-lightCard dark:bg-m3-surface-darkCard border border-m3-outline-light dark:border-m3-outline-dark p-6 sm:p-8 shadow-md">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-m3-outline-light dark:border-m3-outline-dark">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Installation Guide</h2>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Prerequisite: Unlocked bootloader on Motorola Edge 50 (tank)</p>
+          </div>
+
+          <!-- Tabs Controls -->
+          <div class="flex p-1 bg-gray-100 dark:bg-gray-800 rounded-2xl self-start">
+            <button onclick="switchTab('clean')" id="tab-clean-btn" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white dark:bg-gray-900 text-blue-600 dark:text-blue-400 shadow-sm">
+              Clean Flash
+            </button>
+            <button onclick="switchTab('dirty')" id="tab-dirty-btn" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+              Dirty / Update
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB CONTENT 1: Clean Flash -->
+        <div id="tab-clean" class="space-y-6">
+          <div class="flex items-start gap-4">
+            <div class="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</div>
+            <div class="flex-1">
+              <h4 class="font-bold text-sm text-gray-900 dark:text-white mb-1">Reboot to Fastboot Mode</h4>
+              <p class="text-xs text-gray-600 dark:text-gray-300 mb-2">Connect your device to your PC with USB debugging enabled:</p>
+              <div class="bg-gray-900 text-gray-100 p-3 rounded-xl font-mono text-xs flex items-center justify-between">
+                <code>adb reboot bootloader</code>
+                <button onclick="copyToClipboard('adb reboot bootloader', 'Command copied!')" class="text-gray-400 hover:text-white ml-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</div>
+            <div class="flex-1">
+              <h4 class="font-bold text-sm text-gray-900 dark:text-white mb-1">Flash Recovery Partitions</h4>
+              <p class="text-xs text-gray-600 dark:text-gray-300 mb-2">Flash <code class="font-mono text-[11px] bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded">boot</code>, <code class="font-mono text-[11px] bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded">vendor_boot</code>, and <code class="font-mono text-[11px] bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded">dtbo</code> images:</p>
+              <div class="bg-gray-900 text-gray-100 p-3.5 rounded-xl font-mono text-xs space-y-1.5 relative group/code">
+                <div>fastboot flash boot boot.img</div>
+                <div>fastboot flash vendor_boot vendor_boot.img</div>
+                <div>fastboot flash dtbo dtbo.img</div>
+                <div>fastboot reboot recovery</div>
+                <button onclick="copyToClipboard('fastboot flash boot boot.img && fastboot flash vendor_boot vendor_boot.img && fastboot flash dtbo dtbo.img && fastboot reboot recovery', 'Commands copied!')" class="absolute top-3 right-3 text-gray-400 hover:text-white" title="Copy all commands">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</div>
+            <div class="flex-1">
+              <h4 class="font-bold text-sm text-gray-900 dark:text-white mb-1">Format Data & Sideload ROM</h4>
+              <p class="text-xs text-gray-600 dark:text-gray-300 mb-2">In Evolution X Recovery: Go to <strong class="text-gray-900 dark:text-white">Factory reset &gt; Format data/factory reset</strong>. Then select <strong class="text-gray-900 dark:text-white">Apply update &gt; Apply from ADB</strong> and run:</p>
+              <div class="bg-gray-900 text-gray-100 p-3 rounded-xl font-mono text-xs flex items-center justify-between">
+                <code>adb sideload EvolutionX-17.0-20260911-tank-12.2-Unofficial.zip</code>
+                <button onclick="copyToClipboard('adb sideload EvolutionX-17.0-20260911-tank-12.2-Unofficial.zip', 'Sideload command copied!')" class="text-gray-400 hover:text-white ml-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">4</div>
+            <div class="flex-1">
+              <h4 class="font-bold text-sm text-gray-900 dark:text-white mb-1">Reboot System</h4>
+              <p class="text-xs text-gray-600 dark:text-gray-300">Once sideload completes, select <strong class="text-gray-900 dark:text-white">Reboot system now</strong>. Welcome to Evolution X 17!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB CONTENT 2: Dirty Flash -->
+        <div id="tab-dirty" class="hidden space-y-6">
+          <div class="flex items-start gap-4">
+            <div class="w-7 h-7 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</div>
+            <div class="flex-1">
+              <h4 class="font-bold text-sm text-gray-900 dark:text-white mb-1">Reboot into Recovery</h4>
+              <div class="bg-gray-900 text-gray-100 p-3 rounded-xl font-mono text-xs flex items-center justify-between">
+                <code>adb reboot recovery</code>
+                <button onclick="copyToClipboard('adb reboot recovery', 'Command copied!')" class="text-gray-400 hover:text-white ml-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-7 h-7 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</div>
+            <div class="flex-1">
+              <h4 class="font-bold text-sm text-gray-900 dark:text-white mb-1">Sideload New ZIP (No Data Wipe)</h4>
+              <p class="text-xs text-gray-600 dark:text-gray-300 mb-2">Navigate to <strong class="text-gray-900 dark:text-white">Apply update &gt; Apply from ADB</strong> and run:</p>
+              <div class="bg-gray-900 text-gray-100 p-3 rounded-xl font-mono text-xs flex items-center justify-between">
+                <code>adb sideload EvolutionX-17.0-20260911-tank-12.2-Unofficial.zip</code>
+                <button onclick="copyToClipboard('adb sideload EvolutionX-17.0-20260911-tank-12.2-Unofficial.zip', 'Command copied!')" class="text-gray-400 hover:text-white ml-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-7 h-7 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</div>
+            <div class="flex-1">
+              <h4 class="font-bold text-sm text-gray-900 dark:text-white mb-1">Reboot</h4>
+              <p class="text-xs text-gray-600 dark:text-gray-300">Select <strong class="text-gray-900 dark:text-white">Reboot system now</strong> without formatting data.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Highlights & Features Matrix -->
+    <div class="mb-14">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Device &amp; ROM Features</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="p-6 rounded-3xl bg-m3-surface-lightCard dark:bg-m3-surface-darkCard border border-m3-outline-light dark:border-m3-outline-dark shadow-sm">
+          <div class="w-10 h-10 rounded-2xl bg-blue-100 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-4 font-bold">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+          </div>
+          <h3 class="font-bold text-base text-gray-900 dark:text-white mb-2">Lossless Hi-Res Audio</h3>
+          <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+            Full Bluetooth audiophile codec suite: Sony LDAC (up to 990 kbps @ 32-bit/96kHz), Qualcomm aptX Adaptive / aptX Lossless, and LHDC v5 with direct Settings shortcuts.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-m3-surface-lightCard dark:bg-m3-surface-darkCard border border-m3-outline-light dark:border-m3-outline-dark shadow-sm">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4 font-bold">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          </div>
+          <h3 class="font-bold text-base text-gray-900 dark:text-white mb-2">DT2W &amp; Touch Gestures</h3>
+          <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+            Hardware-level Double Tap to Wake with Goodix gesture scanning, custom high-touch sampling rates, and smooth 144Hz display refresh rate modes.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-m3-surface-lightCard dark:bg-m3-surface-darkCard border border-m3-outline-light dark:border-m3-outline-dark shadow-sm">
+          <div class="w-10 h-10 rounded-2xl bg-purple-100 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-4 font-bold">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z"/></svg>
+          </div>
+          <h3 class="font-bold text-base text-gray-900 dark:text-white mb-2">Read-Write System &amp; Root</h3>
+          <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+            Built with ext4 Read-Write partition formatting (<code class="font-mono text-[10px] bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded">--flags 3</code>) allowing full root modifications alongside integrated Google Apps suite.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-m3-outline-light dark:border-m3-outline-dark bg-m3-surface-lightCard dark:bg-m3-surface-darkCard py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500 dark:text-gray-400">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-gray-900 dark:text-white">Evolution X for Motorola Edge 50</span>
+        <span>•</span>
+        <span>Maintained by <a href="https://github.com/ajimsjames" class="underline hover:text-blue-500 font-semibold" target="_blank">@ajimsjames</a></span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/ajimsjames/evolutionx_tank_releases" target="_blank" class="hover:text-gray-900 dark:hover:text-white transition-colors">GitHub Repository</a>
+        <a href="https://sourceforge.net/projects/evolutionx-a17-tank/files/" target="_blank" class="hover:text-gray-900 dark:hover:text-white transition-colors">SourceForge Mirror</a>
+        <a href="https://evolution-x.org" target="_blank" class="hover:text-gray-900 dark:hover:text-white transition-colors">Evolution X Official</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 px-4 py-3 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-gray-950 font-medium text-xs shadow-2xl flex items-center gap-2">
+    <svg class="w-4 h-4 text-emerald-400 dark:text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+    <span id="toast-message">Copied to clipboard!</span>
+  </div>
+
+  <!-- JavaScript for Theme and Interactivity -->
+  <script>
+    // Theme Management
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const htmlEl = document.documentElement;
+
+    // Initialize Theme
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      htmlEl.classList.add('dark');
+    } else {
+      htmlEl.classList.remove('dark');
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      if (htmlEl.classList.contains('dark')) {
+        htmlEl.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        htmlEl.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // Tab Switcher
+    function switchTab(tabId) {
+      const cleanTab = document.getElementById('tab-clean');
+      const dirtyTab = document.getElementById('tab-dirty');
+      const cleanBtn = document.getElementById('tab-clean-btn');
+      const dirtyBtn = document.getElementById('tab-dirty-btn');
+
+      if (tabId === 'clean') {
+        cleanTab.classList.remove('hidden');
+        dirtyTab.classList.add('hidden');
+        cleanBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white dark:bg-gray-900 text-blue-600 dark:text-blue-400 shadow-sm';
+        dirtyBtn.className = 'px-4 py-2 rounded-xl text-xs font-semibold transition-all text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white';
+      } else {
+        cleanTab.classList.add('hidden');
+        dirtyTab.classList.remove('hidden');
+        dirtyBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white dark:bg-gray-900 text-indigo-600 dark:text-indigo-400 shadow-sm';
+        cleanBtn.className = 'px-4 py-2 rounded-xl text-xs font-semibold transition-all text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white';
+      }
+    }
+
+    // Toast & Copy Function
+    function copyToClipboard(text, message = 'Copied to clipboard!') {
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-message');
+        toastMsg.textContent = message;
+        toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+        toast.classList.add('translate-y-0', 'opacity-100');
+
+        setTimeout(() => {
+          toast.classList.remove('translate-y-0', 'opacity-100');
+          toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+        }, 2500);
+      });
+    }
+  </script>
+</body>
+</html>
