@@ -29,13 +29,6 @@ Unofficial EvolutionX 17.0 (Android 17) builds and sources for **Motorola Edge 5
 - **Root Options**:
   - **KernelSU-Next Variant**: Pre-integrated with KernelSU-Next (`CONFIG_KSU=y`) + KernelSU Manager companion APK.
   - **Non-Root Variant**: Standard stock-like unrooted kernel (`CONFIG_KSU=n`).
-- **Bluetooth Audio Fidelity**:
-  - Fixed audio stutters & buffer drops (AAC VBR frame control jitter resolved).
-  - High-resolution / Lossless codecs enabled: **LDAC (990 kbps)**, **aptX Adaptive**, and **LHDC v5**.
-  - Direct UI shortcuts in **Settings > Connected Devices > Bluetooth** & **Device Details** for Codec, Sample Rate (96kHz), Bit Depth (24/32-bit), and LDAC Quality.
-- **Display & Touch**:
-  - Double Tap to Wake (DT2W) hardware support fixed and mapped.
-  - Smooth 120Hz refresh rate tuning with low-brightness throttling bypass.
 - **Filesystem**: Standard RW ext4 (`--flags 3`, dm-verity disabled).
 
 ---
@@ -78,7 +71,7 @@ mkdir -p ~/Android/evox17
 cd ~/Android/evox17
 
 # Initialize repo
-repo init -u https://github.com/Evolution-X/manifest -b vic --git-lfs
+repo init -u https://github.com/Evolution-X/manifest -b cnb --git-lfs
 ```
 
 ### 2. Add Local Manifest & Sync
